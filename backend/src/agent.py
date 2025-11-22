@@ -137,3 +137,126 @@ async def entrypoint(ctx: JobContext):
 
 if __name__ == "__main__":
     cli.run_app(WorkerOptions(entrypoint_fnc=entrypoint, prewarm_fnc=prewarm))
+
+# --------- BaristaAgent tools (Day 2) ---------
+# Add this block at the end of backend/src/agent.py
+
+from typing import Any, Dict, List, Optional
+try:
+    from livekit.agents import Agent, function_tool, RunContext
+except Exception:
+    # If the import path differs in your repo, keep the local import style used above in this file.
+    # The class below expects the repo's Agent base and function_tool decorator to be available.
+    Agent = object
+    def function_tool(*args, **kwargs):
+        def inner(fn):
+            return fn
+        return inner
+    class RunContext(dict):
+        pass
+
+# Simple coffee menu (you can edit items/prices later)
+_BEVERAGE_MENU = [
+    {"id": "c01", "name": "Espresso", "price": 120},
+    {"id": "c02", "name": "Americano", "price": 140},
+    {"id": "c03", "name": "Cappuccino", "price": 170},
+    {"id": "c04", "name": "Latte", "price": 170},
+    {"id": "c05", "name": "Cold Brew", "price": 180},
+]
+
+class BaristaAgent(Agent):
+    """
+    BaristaAgent — Day 2 Coffee Shop agent tools:
+    - get_menu(): returns menu
+    - start_order(customer_name): creates session order state
+    - add_item(item_id, qty): adds item(s) to session order
+    - confirm_order(pickup_type): finalizes order
+    - handoff_to_cashier(): returns a handoff payload with order details
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # friendly default instructions; LiveKit agent runner may use this
+        try:
+            self.instructions = "You are a friendly coffee shop barista. Take orders, confirm them, and hand off to cashier when asked."
+        except Exception:
+            pass
+
+    @function_tool(name="get_menu", description="Return the coffee shop beverage menu")
+    async def get_menu(self, context: RunContext) -> Dict[str, Any]:
+        # Return menu as a serializable dict
+        return {"menu": _BEVERAGE_MENU}
+
+    @function_tool(name="start_order", description="Start a new order for a customer")
+    async def start_order(self, context: RunContext, customer_name: Optional[str] = None) -> Dict[str, Any]:
+        if not hasattr(context, "session_state") and isinstance(context, dict):
+            # ensure session_state exists on context (for different runtimes)
+            context.setdefault("session_state", {})
+        session = getattr(context, "session_state", context.get("session_state", {}))
+
+        session["order"] = {"customer": customer_name or "Guest", "items": [], "total": 0, "status": "started"}
+        # persist back if needed
+        if isinstance(context, dict):
+            context["session_state"] = session
+        else:
+            context.session_state = session
+        return {"status": "started", "order": session["order"]}
+
+    @function_tool(name="add_item", description="Add an item (by id) and quantity to the current order")
+    async def add_item(self, context: RunContext, item_id: str, qty: int = 1) -> Dict[str, Any]:
+        # find item
+        item = next((m for m in _BEVERAGE_MENU if m["id"] == item_id or m["name"].lower() == item_id.lower()), None)
+        if not item:
+            return {"error": f"Item '{item_id}' not found. Use get_menu to see available items."}
+
+        # get or create order in session_state
+        session = getattr(context, "session_state", context.get("session_state", {}))
+        order = session.get("order", {"customer": "Guest", "items": [], "total": 0})
+        line = {"id": item["id"], "name": item["name"], "price": item["price"], "qty": int(qty)}
+        order["items"].append(line)
+        order["total"] = sum(i["price"] * i["qty"] for i in order["items"])
+        session["order"] = order
+
+        # persist
+        if isinstance(context, dict):
+            context["session_state"] = session
+        else:
+            context.session_state = session
+
+        return {"order": order}
+
+    @function_tool(name="confirm_order", description="Confirm and finalize the order")
+    async def confirm_order(self, context: RunContext, pickup_type: str = "counter") -> Dict[str, Any]:
+        session = getattr(context, "session_state", context.get("session_state", {}))
+        order = session.get("order")
+        if not order:
+            return {"error": "No active order to confirm. Start an order first."}
+
+        order["status"] = "confirmed"
+        order["pickup_type"] = pickup_type
+        # (In a production flow, we would create a kitchen ticket or call payment here)
+        session["order"] = order
+
+        if isinstance(context, dict):
+            context["session_state"] = session
+        else:
+            context.session_state = session
+
+        return {
+            "message": f"Order confirmed for {order.get('customer','Guest')}. Total ₹{order.get('total',0)}",
+            "order": order
+        }
+
+    @function_tool(name="handoff_to_cashier", description="Create a handoff payload for a human cashier or cashier-agent")
+    async def handoff_to_cashier(self, context: RunContext) -> Dict[str, Any]:
+        session = getattr(context, "session_state", context.get("session_state", {}))
+        order = session.get("order", {})
+        handoff_payload = {
+            "type": "order_handoff",
+            "order": order,
+            "notes": "Handoff created by BaristaAgent. Cashier to collect payment and complete the order."
+        }
+        # return the handoff payload so the runner or frontend can send it to cashier agent/UI
+        return {"handoff": handoff_payload}
+
+# End of BaristaAgent block

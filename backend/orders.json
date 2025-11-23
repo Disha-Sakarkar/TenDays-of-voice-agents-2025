@@ -1,0 +1,20 @@
+[
+  {
+    "drinkType": "latte",
+    "size": "medium",
+    "milk": "oat",
+    "extras": [
+      "sugar syrup"
+    ],
+    "name": "Disha"
+  },
+  {
+    "drinkType": "latte",
+    "size": "medium",
+    "milk": "oat",
+    "extras": [
+      "sugar syrup"
+    ],
+    "name": "Desha"
+  }
+]

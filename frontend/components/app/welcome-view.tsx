@@ -1,5 +1,6 @@
-"use client";
+'use client';
 
+import React from "react";
 import { Button } from "@/components/livekit/button";
 
 interface WelcomeViewProps {
@@ -8,54 +9,39 @@ interface WelcomeViewProps {
 
 export const WelcomeView = ({ onStartCall }: WelcomeViewProps) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] px-6 py-10 text-center space-y-8 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center bg-gradient-to-b from-emerald-50 via-emerald-100 to-white">
+      <img
+        src="/zoho.png"
+        alt="Zoho hero"
+        className="w-44 h-44 object-contain mb-6 rounded-lg"
+      />
 
-      <div className="space-y-3">
-        <p className="text-xs tracking-[0.3em] uppercase text-slate-400">
-          StudyPulse · Voice Tutor
-        </p>
-        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-50">
-          Learn, Get Quizzed, Teach Back
-        </h1>
-        <p className="text-sm md:text-base text-slate-300 max-w-xl mx-auto">
-          StudyPulse is a voice-first active recall coach. It explains concepts, quizzes you,
-          and listens as you teach the topic back to solidify your understanding.
-        </p>
-      </div>
+      <h1 className="text-4xl font-bold text-foreground mb-2">Zoho Voice SDR</h1>
+      <p className="text-lg text-muted-foreground max-w-2xl mb-6">
+        Hi — I’m Priya from Zoho. I can help you understand our apps, pricing model, and collect your details for a sales follow-up.
+      </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl w-full text-left">
-        <div className="rounded-xl border border-slate-700/70 bg-slate-900/70 p-4">
-          <h2 className="text-sm font-semibold text-slate-50 mb-1">Learn</h2>
-          <p className="text-xs text-slate-300">
-            Get short, clear explanations of each concept with simple examples.
-          </p>
+      <div className="flex gap-3 max-w-3xl w-full justify-center mb-6">
+        <div className="px-5 py-4 rounded-lg bg-white shadow-sm text-left">
+          <h4 className="text-sm font-semibold">Who it's for</h4>
+          <p className="text-xs text-muted-foreground">SMBs to enterprises seeking an integrated app suite.</p>
         </div>
-        <div className="rounded-xl border border-slate-700/70 bg-slate-900/70 p-4">
-          <h2 className="text-sm font-semibold text-slate-50 mb-1">Quiz</h2>
-          <p className="text-xs text-slate-300">
-            Answer targeted questions and get quick feedback on how you’re doing.
-          </p>
-        </div>
-        <div className="rounded-xl border border-slate-700/70 bg-slate-900/70 p-4">
-          <h2 className="text-sm font-semibold text-slate-50 mb-1">Teach Back</h2>
-          <p className="text-xs text-slate-300">
-            Explain the topic in your own words and receive gentle, qualitative feedback.
-          </p>
+        <div className="px-5 py-4 rounded-lg bg-white shadow-sm text-left">
+          <h4 className="text-sm font-semibold">Getting started</h4>
+          <p className="text-xs text-muted-foreground">Trials available; pricing depends on the product and plan.</p>
         </div>
       </div>
 
       <Button
         size="lg"
-        className="mt-4 px-10 py-6 rounded-2xl font-semibold bg-emerald-500 hover:bg-emerald-600 text-slate-950 shadow-lg"
+        className="px-10 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
         onClick={onStartCall}
       >
-        Start Voice Session
+        Start Conversation with Priya
       </Button>
 
-      <p className="text-[11px] text-slate-400 mt-2">
-        Powered by Murf Falcon TTS · LiveKit Agents
-      </p>
-    </div>
+      <p className="text-[12px] mt-3 text-muted-foreground">Powered by Zoho-inspired UI • Murf Falcon TTS</p>
+    </section>
   );
 };
 

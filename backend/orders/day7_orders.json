@@ -1,0 +1,29 @@
+[
+  {
+    "order_id": "QB-1764315715",
+    "timestamp": "2025-11-28T07:41:55.034243+00:00",
+    "customer_name": "Disha",
+    "delivery_note": "Please include some extra packets of masala with the noodles.",
+    "items": [
+      {
+        "item_id": "item_002",
+        "name": "Peanut Butter",
+        "unit_price": 180.0,
+        "quantity": 1
+      },
+      {
+        "item_id": "item_011",
+        "name": "Instant Masala Noodles",
+        "unit_price": 25.0,
+        "quantity": 4
+      },
+      {
+        "item_id": "item_009",
+        "name": "Veg Margherita Pizza (Frozen)",
+        "unit_price": 220.0,
+        "quantity": 1
+      }
+    ],
+    "total": 500.0
+  }
+]

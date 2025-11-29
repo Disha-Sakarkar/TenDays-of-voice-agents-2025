@@ -1,64 +1,63 @@
 'use client';
 
 import React from "react";
-import { Button } from "@/components/livekit/button";
+import { Button } from "@/components/livekit/button"; // you can keep your existing button or use the class below
 
 interface WelcomeViewProps {
-  startButtonText: string;
+  startButtonText?: string;
   onStartCall: () => void;
 }
 
-export const WelcomeView = ({ startButtonText, onStartCall }: WelcomeViewProps) => {
+export const WelcomeView = ({ startButtonText = "Start Adventure", onStartCall }: WelcomeViewProps) => {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center bg-gradient-to-b from-amber-500 via-orange-50 to-white">
-      <div className="max-w-xl space-y-3">
-        <p className="text-xs tracking-[0.3em] uppercase text-orange-500">
-          QuickBasket · Voice Ordering
-        </p>
+    <div className="min-h-screen flex items-center justify-center p-6 lavender-bg">
+      <div className="max-w-2xl w-full lavender-card">
+        <div className="flex items-start gap-4">
+          <div className="flex-shrink-0">
+            <div className="h-14 w-14 rounded-full flex items-center justify-center" 
+                 style={{ background: 'linear-gradient(90deg,var(--accent),var(--accent-3))', color: 'var(--button-text)', fontWeight: 700 }}>
+              ♕
+            </div>
+          </div>
 
-        <h1 className="text-3xl md:text-4xl font-bold text-slate-900">
-          Order Food & Groceries with Your Voice
-        </h1>
+          <div className="flex-1">
+            <h1 className="text-2xl md:text-3xl font-bold lavender-heading">
+              The Princess of Willowmere
+            </h1>
+            <p className="mt-2 text-sm text-slate-600">
+              A short, friendly tale — help Princess Aurelia find a lost silver locket. Speak or type
+              short actions like <span className="font-mono">"look at garden"</span> or <span className="font-mono">"ask the guard"</span>.
+            </p>
 
-        <p className="text-sm md:text-base text-slate-600">
-          I’m your QuickBasket assistant. I can add groceries, snacks, and simple meal ingredients
-          to your cart — and even grab everything you need for a pasta dinner or a peanut butter sandwich.
-        </p>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="p-3 rounded-lg border" style={{ borderColor: 'var(--card-border)', background: 'transparent' }}>
+                <div className="font-semibold">Explore</div>
+                <div className="text-xs lavender-subtle">Search castle, garden, market.</div>
+              </div>
+
+              <div className="p-3 rounded-lg border" style={{ borderColor: 'var(--card-border)', background: 'transparent' }}>
+                <div className="font-semibold">Talk</div>
+                <div className="text-xs lavender-subtle">Ask townsfolk for clues.</div>
+              </div>
+
+              <div className="p-3 rounded-lg border" style={{ borderColor: 'var(--card-border)', background: 'transparent' }}>
+                <div className="font-semibold">Decide</div>
+                <div className="text-xs lavender-subtle">Make choices to shape the ending.</div>
+              </div>
+            </div>
+
+            <div className="mt-6 flex gap-3">
+              {/* If you prefer to keep your existing Button component, you can add className below instead */}
+              <button onClick={onStartCall} className="lavender-btn">
+                {startButtonText}
+              </button>
+            </div>
+
+            <p className="text-[12px] text-slate-400 mt-3">Hint: Keep actions short — the GM will ask “What do you do?”</p>
+          </div>
+        </div>
       </div>
-
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl w-full text-left">
-        <div className="rounded-2xl border border-orange-100 bg-white p-4 shadow-sm">
-          <h2 className="text-sm font-semibold text-slate-900 mb-1">Groceries</h2>
-          <p className="text-xs text-slate-600">
-            Bread, milk, eggs, fruits and kitchen essentials — just ask and I’ll add them to your cart.
-          </p>
-        </div>
-        <div className="rounded-2xl border border-orange-100 bg-white p-4 shadow-sm">
-          <h2 className="text-sm font-semibold text-slate-900 mb-1">Snacks & Ready-to-Eat</h2>
-          <p className="text-xs text-slate-600">
-            Chips, noodles, pizzas and quick bites for late-night cravings or study sessions.
-          </p>
-        </div>
-        <div className="rounded-2xl border border-orange-100 bg-white p-4 shadow-sm">
-          <h2 className="text-sm font-semibold text-slate-900 mb-1">Smart Ingredients</h2>
-          <p className="text-xs text-slate-600">
-            Say things like “ingredients for a peanut butter sandwich” and I’ll bundle everything for you.
-          </p>
-        </div>
-      </div>
-
-      <Button
-        size="lg"
-        className="mt-8 px-10 py-4 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-md"
-        onClick={onStartCall}
-      >
-        {startButtonText || "Start Ordering"}
-      </Button>
-
-      <p className="text-[11px] text-slate-500 mt-3">
-        Demo experience · No real payments or deliveries
-      </p>
-    </section>
+    </div>
   );
 };
 

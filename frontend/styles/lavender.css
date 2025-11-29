@@ -1,0 +1,61 @@
+:root {
+  /* Lavender theme variables */
+  --bg-grad-start: #952efb;   /* very light lavender */
+  --bg-grad-end:   #fff6fb;   /* almost-white pinkish */
+  --card-bg:       rgba(255,255,255,0.72);
+  --card-border:   rgba(172,133,211,0.22);
+  --muted:         #6b5f76;
+  --accent:        #9b6ee0;   /* primary lavender */
+  --accent-2:      #e9c7ff;   /* soft pink highlight */
+  --accent-3:      #7a5bd6;   /* deeper lavender */
+  --button-text:   #ffffff;
+  --glass-blur:    10px;
+  --shadow:        0 8px 30px rgba(124, 86, 185, 0.12);
+  --glow:          0 6px 30px rgba(155,110,224,0.18);
+  --text-primary:  #2b2540;
+  --text-on-accent:#ffffff;
+}
+
+/* global helper classes (small, safe) */
+.lavender-bg {
+  background: linear-gradient(180deg, var(--bg-grad-start) 0%, var(--bg-grad-end) 100%);
+}
+
+.lavender-card {
+  background: linear-gradient(180deg, var(--card-bg), rgba(255,255,255,0.86));
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+.lavender-btn {
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-3) 100%);
+  color: var(--button-text);
+  padding: 0.7rem 1.2rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  box-shadow: var(--glow);
+  border: none;
+}
+
+.lavender-btn:active { transform: translateY(1px); }
+.lavender-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.lavender-subtle {
+  color: var(--muted);
+}
+
+.lavender-heading {
+  color: var(--text-primary);
+}
+
+.lavender-pill {
+  background: var(--accent-2);
+  color: var(--text-primary);
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}

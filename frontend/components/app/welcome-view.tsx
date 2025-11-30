@@ -1,62 +1,85 @@
-'use client';
+"use client";
 
 import React from "react";
-import { Button } from "@/components/livekit/button"; // you can keep your existing button or use the class below
+import { Button } from "@/components/livekit/button";
 
 interface WelcomeViewProps {
-  startButtonText?: string;
+  startButtonText: string;
   onStartCall: () => void;
 }
 
-export const WelcomeView = ({ startButtonText = "Start Adventure", onStartCall }: WelcomeViewProps) => {
+export const WelcomeView = ({
+  startButtonText,
+  onStartCall,
+  ...props
+}: React.ComponentProps<"div"> & WelcomeViewProps) => {
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 lavender-bg">
-      <div className="max-w-2xl w-full lavender-card">
-        <div className="flex items-start gap-4">
-          <div className="flex-shrink-0">
-            <div className="h-14 w-14 rounded-full flex items-center justify-center" 
-                 style={{ background: 'linear-gradient(90deg,var(--accent),var(--accent-3))', color: 'var(--button-text)', fontWeight: 700 }}>
-              ♕
-            </div>
-          </div>
+    <div
+      {...props}
+      className="min-h-screen w-full px-6 py-10 flex flex-col items-center justify-center 
+                 bg-gradient-to-br from-indigo-900 via-slate-900 to-black text-slate-100"
+    >
+      {/* Header */}
+      <div className="text-center space-y-3 max-w-2xl">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+          Your AI Voice Shopping Assistant
+        </h1>
 
-          <div className="flex-1">
-            <h1 className="text-2xl md:text-3xl font-bold lavender-heading">
-              The Princess of Willowmere
-            </h1>
-            <p className="mt-2 text-sm text-slate-600">
-              A short, friendly tale — help Princess Aurelia find a lost silver locket. Speak or type
-              short actions like <span className="font-mono">"look at garden"</span> or <span className="font-mono">"ask the guard"</span>.
-            </p>
+        <p className="text-slate-300 text-sm md:text-base leading-relaxed">
+          Browse products, compare prices, and place orders — all through natural conversation.  
+          Powered by a lite Agentic Commerce Protocol workflow.
+        </p>
+      </div>
 
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="p-3 rounded-lg border" style={{ borderColor: 'var(--card-border)', background: 'transparent' }}>
-                <div className="font-semibold">Explore</div>
-                <div className="text-xs lavender-subtle">Search castle, garden, market.</div>
-              </div>
+      {/* 3 Feature Blocks */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 max-w-4xl w-full">
+        {/* Feature #1 */}
+        <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-5 border border-slate-700 shadow-lg">
+          <h2 className="text-lg font-semibold mb-1">Browse by Voice</h2>
+          <p className="text-xs text-slate-300 mb-2">
+            Search for products by price, category, color, or size.
+          </p>
+          <p className="text-[11px] text-indigo-400">
+            Try: “Show me hoodies under 1500.”
+          </p>
+        </div>
 
-              <div className="p-3 rounded-lg border" style={{ borderColor: 'var(--card-border)', background: 'transparent' }}>
-                <div className="font-semibold">Talk</div>
-                <div className="text-xs lavender-subtle">Ask townsfolk for clues.</div>
-              </div>
+        {/* Feature #2 */}
+        <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-5 border border-slate-700 shadow-lg">
+          <h2 className="text-lg font-semibold mb-1">Place an Order</h2>
+          <p className="text-xs text-slate-300 mb-2">
+            Pick any product you hear about. I’ll create a structured order object with pricing.
+          </p>
+          <p className="text-[11px] text-indigo-400">
+            Try: “Buy the second mug you mentioned.”
+          </p>
+        </div>
 
-              <div className="p-3 rounded-lg border" style={{ borderColor: 'var(--card-border)', background: 'transparent' }}>
-                <div className="font-semibold">Decide</div>
-                <div className="text-xs lavender-subtle">Make choices to shape the ending.</div>
-              </div>
-            </div>
-
-            <div className="mt-6 flex gap-3">
-              {/* If you prefer to keep your existing Button component, you can add className below instead */}
-              <button onClick={onStartCall} className="lavender-btn">
-                {startButtonText}
-              </button>
-            </div>
-
-            <p className="text-[12px] text-slate-400 mt-3">Hint: Keep actions short — the GM will ask “What do you do?”</p>
-          </div>
+        {/* Feature #3 */}
+        <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-5 border border-slate-700 shadow-lg">
+          <h2 className="text-lg font-semibold mb-1">Review Your Order</h2>
+          <p className="text-xs text-slate-300 mb-2">
+            Ask about your latest order and I’ll fetch the stored JSON summary.
+          </p>
+          <p className="text-[11px] text-indigo-400">
+            Try: “What did I buy just now?”
+          </p>
         </div>
       </div>
+
+      {/* CTA */}
+      <Button
+        size="lg"
+        className="mt-10 px-10 py-4 rounded-2xl font-medium 
+                   bg-indigo-500 hover:bg-indigo-600 text-black shadow-lg"
+        onClick={onStartCall}
+      >
+        {startButtonText || "Start Shopping"}
+      </Button>
+
+      <p className="mt-4 text-[11px] text-slate-500">
+        Demo Only · No Real Payments · Orders Saved as JSON
+      </p>
     </div>
   );
 };

@@ -98,7 +98,7 @@ export function ChatTranscript({
               GM
             </div>
             <div>
-              <div className="text-sm font-semibold text-black-100">Lost in Space — Session</div>
+              <div className="text-sm font-semibold text-black-100">Improv Session</div>
               <div className="text-[11px] text-slate-400">Realtime voice transcript</div>
             </div>
           </div>
